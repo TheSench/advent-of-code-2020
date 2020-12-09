@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { env } = require('process');
-const { getGroups } = require('./part1');
+const { getGroups, answersInGroup } = require('./part1');
 const { EOL } = require('os');
 const { outdent } = require('../utils/testUtils');
 
@@ -48,4 +48,26 @@ describe('getGroups', () => {
             responses: ['def', 'efg']
         }]);
     });
-})
+});
+
+describe('answersInGroup', () => {
+    it('counts the letters in "abc"', () => {
+        const group = {
+            responses: ['abc']
+        };
+
+        const count = answersInGroup(group);
+
+        expect(count).toBe(3);
+    });
+
+    it('counts the unique letters in "aab"', () => {
+        const group = {
+            responses: ['aab']
+        };
+
+        const count = answersInGroup(group);
+
+        expect(count).toBe(2);
+    });
+});

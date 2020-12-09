@@ -7,6 +7,11 @@ function getGroups(rawText) {
         }));
 }
 
+function answersInGroup(group) {
+    const letters = [...group.responses.join('')];
+    return [...new Set(letters)].length;
+}
+
 fs.readFile(__dirname + '/input.txt', function (err, data) {
     if (err) {
         throw err;
@@ -16,5 +21,6 @@ fs.readFile(__dirname + '/input.txt', function (err, data) {
 });
 
 module.exports = {
-    getGroups
+    getGroups,
+    answersInGroup
 };
