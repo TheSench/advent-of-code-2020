@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { env } = require('process');
-const { getGroups, answersInGroup } = require('./part1');
+const { getGroups, answersInGroup, getInputSum } = require('./part1');
 const { EOL } = require('os');
 const { outdent } = require('../utils/testUtils');
 
@@ -48,6 +48,29 @@ describe('getGroups', () => {
             responses: ['def', 'efg']
         }]);
     });
+    
+    it('calculates correct number of groups from README example', () => {
+        const input = outdent`\
+                      abc
+                      
+                      a
+                      b
+                      c
+                      
+                      ab
+                      ac
+                      
+                      a
+                      a
+                      a
+                      a
+                      
+                      b`;
+
+        const groups = getGroups(input);
+
+        expect(groups).toHaveLength(5);
+    });
 });
 
 describe('answersInGroup', () => {
@@ -69,5 +92,54 @@ describe('answersInGroup', () => {
         const count = answersInGroup(group);
 
         expect(count).toBe(2);
+    });
+    
+    it('calculates correct counts from README example', () => {
+        const input = outdent`\
+                      abc
+                      
+                      a
+                      b
+                      c
+                      
+                      ab
+                      ac
+                      
+                      a
+                      a
+                      a
+                      a
+                      
+                      b`;
+
+        const counts = getGroups(input)
+        .map(group => answersInGroup(group));
+
+        expect(counts).toEqual([3, 3, 3, 1, 1]);
+    });
+});
+
+describe('getInputSum', () => {
+    it('calculates correct sum from README example', () => {
+        const input = outdent`\
+                      abc
+                      
+                      a
+                      b
+                      c
+                      
+                      ab
+                      ac
+                      
+                      a
+                      a
+                      a
+                      a
+                      
+                      b`;
+
+        const sum = getInputSum(input);
+
+        expect(sum).toBe(11);
     });
 });

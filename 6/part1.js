@@ -12,15 +12,23 @@ function answersInGroup(group) {
     return [...new Set(letters)].length;
 }
 
+function getInputSum(rawText) {
+    return getGroups(rawText)
+        .map(group => answersInGroup(group))
+        .reduce((total, next) => total + next);
+}
+
 fs.readFile(__dirname + '/input.txt', function (err, data) {
     if (err) {
         throw err;
     }
     const rawText = data.toString();
-    const allGroups = getGroups(rawText);
+    const sum = getInputSum(rawText);
+    console.log(sum);
 });
 
 module.exports = {
     getGroups,
-    answersInGroup
+    answersInGroup,
+    getInputSum
 };
