@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { env } = require('process');
-const { getGroups, answeredByAnyone, sumOfAnsweredByAnyone, sumOfAnsweredByEveryone } = require('./day6');
+const { getGroups, answeredByAnyone, answeredByEveryone, sumOfAnsweredByAnyone, sumOfAnsweredByEveryone } = require('./day6');
 const { EOL } = require('os');
 const { outdent } = require('../utils/testUtils');
 
@@ -116,6 +116,62 @@ describe('answeredByAnyone', () => {
         .map(group => answeredByAnyone(group));
 
         expect(counts).toEqual([3, 3, 3, 1, 1]);
+    });
+});
+
+describe('answeredByEveryone', () => {
+    it('counts the letters in "abc"', () => {
+        const group = {
+            responses: ['abc']
+        };
+
+        const count = answeredByEveryone(group);
+
+        expect(count).toBe(3);
+    });
+
+    it('counts the unique letters in "aab"', () => {
+        const group = {
+            responses: ['aab']
+        };
+
+        const count = answeredByEveryone(group);
+
+        expect(count).toBe(2);
+    });
+    
+    it('counts the letters shared by all in group', () => {
+        const group = {
+            responses: ['ab', 'ac']
+        };
+
+        const count = answeredByEveryone(group);
+
+        expect(count).toBe(1);
+    });
+    
+    it('calculates correct counts from README example', () => {
+        const input = outdent`\
+                      abc
+                      
+                      a
+                      b
+                      c
+                      
+                      ab
+                      ac
+                      
+                      a
+                      a
+                      a
+                      a
+                      
+                      b`;
+
+        const counts = getGroups(input)
+        .map(group => answeredByEveryone(group));
+
+        expect(counts).toEqual([3, 0, 1, 1, 1]);
     });
 });
 
