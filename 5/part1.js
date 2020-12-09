@@ -1,15 +1,5 @@
 const fs = require('fs');
 
-const REQUIRED_FIELDS = [
-    'byr',
-    'iyr',
-    'eyr',
-    'hgt',
-    'hcl',
-    'ecl',
-    'pid'
-];
-
 function binaryPartitioner(minLetter, maxLetter) {
     return function binaryPartition({min, max}, letter) {
         const range = max - min + 1;
@@ -40,7 +30,7 @@ function getSeatId({row, column}) {
 
 function getBoardingPasses(data) {
     return data.toString()
-        .split(/\r\n?|\s/)
+        .split(/\r?\n/)
         .map(getBoardingPass);
 }
 

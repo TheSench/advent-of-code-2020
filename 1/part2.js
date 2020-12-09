@@ -4,7 +4,7 @@ const TARGET_SUM = 2020;
 
 function getSortedExpenses(data) { 
     return data.toString()
-        .split(/\r\n?/)
+        .split(/\r?\n/)
         .map(Number)
         .sort((a,b) => a - b);
 }

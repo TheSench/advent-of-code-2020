@@ -56,7 +56,7 @@ function heighValidator(value) {
 
 function getPassports(data) {
     return data.toString()
-        .split(/\r\n?|\s/)
+        .split(/\r?\n|\s/)
         .reduce((passports, nextRawField) => {
             if (!nextRawField) {
                 passports.push({});

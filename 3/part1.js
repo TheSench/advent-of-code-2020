@@ -3,7 +3,7 @@ const fs = require('fs');
 
 function getRows(data) {
     return data.toString()
-        .split(/\r\n?/)
+        .split(/\r?\n/)
         .map(line => [...line].map(char => char === '#'));
 }
 

@@ -3,7 +3,7 @@ const fs = require('fs');
 const PASSWORD_REGEX = /(?<min>\d+)-(?<max>\d+)\s+(?<letter>[a-z]):\s+(?<password>[a-z]+)/i
 function getPasswordData(data) {
     return data.toString()
-        .split(/\r\n?/)
+        .split(/\r?\n/)
         .map(line => line.match(PASSWORD_REGEX).groups)
         .map(groups => ({
             min: Number(groups.min),
