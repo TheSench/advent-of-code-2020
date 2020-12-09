@@ -1,7 +1,7 @@
 const { readFile } = require('../utils/fileUtils');
-const { getInputSum } = require('./day6');
+const { sumOfAnsweredByAnyone } = require('./day6');
 
 readFile(__dirname, 'input.txt').then(rawText => {
-    const sum = getInputSum(rawText);
+    const sum = sumOfAnsweredByAnyone(rawText);
     console.log(sum);
 });

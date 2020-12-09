@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { env } = require('process');
-const { getGroups, answersInGroup, getInputSum } = require('./day6');
+const { getGroups, answeredByEveryone, sumOfAnsweredByAnyone } = require('./day6');
 const { EOL } = require('os');
 const { outdent } = require('../utils/testUtils');
 
@@ -73,13 +73,13 @@ describe('getGroups', () => {
     });
 });
 
-describe('answersInGroup', () => {
+describe('answeredByEveryone', () => {
     it('counts the letters in "abc"', () => {
         const group = {
             responses: ['abc']
         };
 
-        const count = answersInGroup(group);
+        const count = answeredByEveryone(group);
 
         expect(count).toBe(3);
     });
@@ -89,7 +89,7 @@ describe('answersInGroup', () => {
             responses: ['aab']
         };
 
-        const count = answersInGroup(group);
+        const count = answeredByEveryone(group);
 
         expect(count).toBe(2);
     });
@@ -113,13 +113,13 @@ describe('answersInGroup', () => {
                       b`;
 
         const counts = getGroups(input)
-        .map(group => answersInGroup(group));
+        .map(group => answeredByEveryone(group));
 
         expect(counts).toEqual([3, 3, 3, 1, 1]);
     });
 });
 
-describe('getInputSum', () => {
+describe('sumOfAnsweredByAnyone', () => {
     it('calculates correct sum from README example', () => {
         const input = outdent`\
                       abc
@@ -138,7 +138,7 @@ describe('getInputSum', () => {
                       
                       b`;
 
-        const sum = getInputSum(input);
+        const sum = sumOfAnsweredByAnyone(input);
 
         expect(sum).toBe(11);
     });

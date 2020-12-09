@@ -7,19 +7,19 @@ function getGroups(rawText) {
         }));
 }
 
-function answersInGroup(group) {
+function answeredByEveryone(group) {
     const letters = [...group.responses.join('')];
     return [...new Set(letters)].length;
 }
 
-function getInputSum(rawText) {
+function sumOfAnsweredByAnyone(rawText) {
     return getGroups(rawText)
-        .map(group => answersInGroup(group))
+        .map(group => answeredByEveryone(group))
         .reduce((total, next) => total + next);
 }
 
 module.exports = {
     getGroups,
-    answersInGroup,
-    getInputSum
+    answeredByEveryone,
+    sumOfAnsweredByAnyone
 };
