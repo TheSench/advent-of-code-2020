@@ -15,4 +15,37 @@ describe('getGroups', () => {
 
         expect(groups).toHaveLength(2);
     });
+
+    it('creates response for each line', () => {
+        const input = outdent`\
+                      abc
+                      def`;
+
+        const groups = getGroups(input);
+
+        expect(groups).toEqual([{
+            responses: ['abc', 'def']
+        }]);
+    });
+
+    it('handles multiple groups with multilpe responses', () => {
+        const input = outdent`\
+                      abc
+                      d
+
+                      def
+                      
+                      def
+                      efg`;
+
+        const groups = getGroups(input);
+
+        expect(groups).toEqual([{
+            responses: ['abc', 'd']
+        }, {
+            responses: ['def']
+        }, {
+            responses: ['def', 'efg']
+        }]);
+    });
 })

@@ -10,11 +10,11 @@ function outdent(strings) {
     let outdented = strings
         .map((s, i) => `${s}${arguments[i + 1] || ''}`)
         .join('')
-    // Find the indentation after the first newline
+    // Find the first indentation
     const matches = /^\s+/.exec(outdented.split('\n')[1])
     if (matches) {
-        const outdentRegex = new RegExp('\\n' + matches[0], 'g')
-        outdented = outdented.replace(outdentRegex, '\n')
+        const outdentRegex = new RegExp('^' + matches[0], 'gm')
+        outdented = outdented.replace(outdentRegex, '')
     }
     return outdented
 }

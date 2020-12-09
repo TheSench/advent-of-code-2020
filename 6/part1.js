@@ -1,7 +1,10 @@
 const fs = require('fs');
 
 function getGroups(rawText) {
-    return rawText.split(/\r?\n\r?\n/);
+    return rawText.split(/\r?\n\r?\n/)
+        .map(group => ({
+            responses: group.split(/\r?\n/)
+        }));
 }
 
 fs.readFile(__dirname + '/input.txt', function (err, data) {
