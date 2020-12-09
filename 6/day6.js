@@ -18,8 +18,15 @@ function sumOfAnsweredByAnyone(rawText) {
         .reduce((total, next) => total + next);
 }
 
+function sumOfAnsweredByEveryone(rawText) {
+    return getGroups(rawText)
+        .map(group => answeredByEveryone(group))
+        .reduce((total, next) => total + next);
+}
+
 module.exports = {
     getGroups,
     answeredByEveryone,
-    sumOfAnsweredByAnyone
+    sumOfAnsweredByAnyone,
+    sumOfAnsweredByEveryone
 };

@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { env } = require('process');
-const { getGroups, answeredByEveryone, sumOfAnsweredByAnyone } = require('./day6');
+const { getGroups, answeredByEveryone, sumOfAnsweredByAnyone, sumOfAnsweredByEveryone } = require('./day6');
 const { EOL } = require('os');
 const { outdent } = require('../utils/testUtils');
 
@@ -141,5 +141,30 @@ describe('sumOfAnsweredByAnyone', () => {
         const sum = sumOfAnsweredByAnyone(input);
 
         expect(sum).toBe(11);
+    });
+});
+
+describe('sumOfAnsweredByEveryone', () => {
+    it('calculates correct sum from README example', () => {
+        const input = outdent`\
+                      abc
+                      
+                      a
+                      b
+                      c
+                      
+                      ab
+                      ac
+                      
+                      a
+                      a
+                      a
+                      a
+                      
+                      b`;
+
+        const sum = sumOfAnsweredByEveryone(input);
+
+        expect(sum).toBe(6);
     });
 });
