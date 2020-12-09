@@ -7,26 +7,26 @@ function getGroups(rawText) {
         }));
 }
 
-function answeredByEveryone(group) {
+function answeredByAnyone(group) {
     const letters = [...group.responses.join('')];
     return [...new Set(letters)].length;
 }
 
 function sumOfAnsweredByAnyone(rawText) {
     return getGroups(rawText)
-        .map(group => answeredByEveryone(group))
+        .map(group => answeredByAnyone(group))
         .reduce((total, next) => total + next);
 }
 
 function sumOfAnsweredByEveryone(rawText) {
     return getGroups(rawText)
-        .map(group => answeredByEveryone(group))
+        .map(group => answeredByAnyone(group))
         .reduce((total, next) => total + next);
 }
 
 module.exports = {
     getGroups,
-    answeredByEveryone,
+    answeredByAnyone,
     sumOfAnsweredByAnyone,
     sumOfAnsweredByEveryone
 };
