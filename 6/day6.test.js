@@ -1,8 +1,6 @@
 const { describe, expect } = require('@jest/globals');
-const { env } = require('process');
-const { getGroups, answeredByAnyone, answeredByEveryone, sumOfAnsweredByAnyone, sumOfAnsweredByEveryone } = require('./day6');
-const { EOL } = require('os');
 const { outdent } = require('../utils/testUtils');
+const { getGroups, answeredByAnyone, answeredByEveryone, sumOfAnsweredByAnyone, sumOfAnsweredByEveryone } = require('./day6');
 
 describe('getGroups', () => {
     it('splits groups by blank lines', () => {

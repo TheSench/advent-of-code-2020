@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 function getGroups(rawText) {
     return rawText.split(/\r?\n\r?\n/)
         .map(group => ({
