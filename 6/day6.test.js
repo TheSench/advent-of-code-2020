@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { env } = require('process');
-const { getGroups, answersInGroup, getInputSum } = require('./part1');
+const { getGroups, answersInGroup, getInputSum } = require('./day6');
 const { EOL } = require('os');
 const { outdent } = require('../utils/testUtils');
 
