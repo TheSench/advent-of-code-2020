@@ -9,14 +9,14 @@ function outdent(strings) {
     // Add in all of the expressions
     let outdented = strings
         .map((s, i) => `${s}${arguments[i + 1] || ''}`)
-        .join('')
+        .join('');
     // Find the first indentation
-    const matches = /^\s+/.exec(outdented.split('\n')[1])
+    const matches = /^\s+/.exec(outdented.split('\n')[1]) || /^\s+/.exec(outdented.split('\n')[0]);
     if (matches) {
-        const outdentRegex = new RegExp('^' + matches[0], 'gm')
-        outdented = outdented.replace(outdentRegex, '')
+        const outdentRegex = new RegExp('^' + matches[0], 'gm');
+        outdented = outdented.replace(outdentRegex, '');
     }
-    return outdented
+    return outdented;
 }
 
 module.exports = {
