@@ -7,8 +7,7 @@ describe('parseRule', () => {
         const rule = parseRule('faded blue bags contain no other bags.');
 
         expect(rule).toEqual({
-            type: 'faded blue',
-            contents: []
+            'faded blue': {}
         });
     });
 
@@ -16,11 +15,9 @@ describe('parseRule', () => {
         const rule = parseRule('bright white bags contain 1 shiny gold bag.');
 
         expect(rule).toEqual({
-            type: 'bright white',
-            contents: [{
-                type: 'shiny gold',
-                count: 1
-            }]
+            'bright white': {
+                'shiny gold': 1
+            }
         });
     });
 
@@ -28,14 +25,10 @@ describe('parseRule', () => {
         const rule = parseRule('muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.');
 
         expect(rule).toEqual({
-            type: 'muted yellow',
-            contents: [{
-                type: 'shiny gold',
-                count: 2
-            },{
-                type: 'faded blue',
-                count: 9
-            }]
+            'muted yellow': {
+                'shiny gold': 2,
+                'faded blue': 9
+            }
         });
     });
 
@@ -43,14 +36,10 @@ describe('parseRule', () => {
         const rule = parseRule('shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.');
 
         expect(rule).toEqual({
-            type: 'shiny gold',
-            contents: [{
-                type: 'dark olive',
-                count: 1
-            },{
-                type: 'vibrant plum',
-                count: 2
-            }]
+            'shiny gold': {
+                'dark olive': 1,
+                'vibrant plum': 2
+            }
         });
     });
 });
