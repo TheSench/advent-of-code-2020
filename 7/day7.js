@@ -7,20 +7,21 @@ function parseRule(line) {
     const contents = contains.split(', ')
         .map(containedBag => containedBag.match(/(?<count>\d+) (?<type>\w+ \w+) bags?/))
         .filter(match => match)
-        .map(({ groups }) => ({
-            count: Number(groups.count),
-            type: groups.type
-        }));
+        .reduce((contents, {groups}) => 
+            Object.assign(contents, { [groups.type]: Number(groups.count) })
+        , {});
 
     return {
-        type,
-        contents
+        [type]: contents
     };
 }
 
 function parseRules(text) {
     return splitIntoLines(text)
-        .map(parseRule);
+        .map(parseRule)
+        .reduce((rules, rule) =>
+            Object.assign(rules, rule)
+        , {});
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
-const { parseRule } = require('./day7');
+const { parseRule, parseRules } = require('./day7');
 
 describe('parseRule', () => {
     it('parses a bag that contains no other bags', () => {
@@ -39,6 +39,27 @@ describe('parseRule', () => {
             'shiny gold': {
                 'dark olive': 1,
                 'vibrant plum': 2
+            }
+        });
+    });
+});
+
+describe('parseRules', () => {
+    it('returns a map of rules', () => {
+        const input = outdent`\
+                      shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
+                      dark orange bags contain 3 bright white bags, 4 muted yellow bags.`;
+
+        const rules = parseRules(input);
+
+        expect(rules).toEqual({
+            'shiny gold': {
+                'dark olive': 1,
+                'vibrant plum': 2
+            },
+            'dark orange': {
+                'bright white': 3,
+                'muted yellow': 4
             }
         });
     });
