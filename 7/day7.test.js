@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
-const { parseRule, parseRules, maxBags } = require('./day7');
+const { parseRule, parseRules, amountHeldByBag } = require('./day7');
 
 describe('parseRule', () => {
     it('parses a bag that contains no other bags', () => {
@@ -114,11 +114,11 @@ describe('parseRules', () => {
     })
 });
 
-describe('maxBags', () => {
+describe('amountHeldByBag', () => {
     it('return 0 when bag is not in any other bags', () => {
         const rules = parseRules('faded blue bags contain no other bags.');
 
-        const count = maxBags(rules, 'shiny gold');
+        const count = amountHeldByBag(rules, 'faded blue', 'shiny gold');
 
         expect(count).toBe(0);
     });
@@ -126,19 +126,42 @@ describe('maxBags', () => {
     it('return 2 when only rule says it can hold 2', () => {
         const rules = parseRules('muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.');
 
-        const count = maxBags(rules, 'shiny gold');
+        const count = amountHeldByBag(rules, 'muted yellow', 'shiny gold');
 
         expect(count).toBe(2);
     });
 
-    it('when 2 rules can hold a bag, returns the greater', () => {
+    it('when one bag holds 4 of another that holds 2 of target bag, returns product (8)', () => {
         const input = outdent`\
-                      dark orange bags contain 3 shiny gold bags, 4 muted yellow bags.
-                      bright white bags contain 1 shiny gold bag.`
+                      dark orange bags contain 3 bright white bags, 4 muted yellow bags.
+                      muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.`
         const rules = parseRules(input);
 
-        const count = maxBags(rules, 'shiny gold');
+        const count = amountHeldByBag(rules, 'dark orange', 'shiny gold');
 
-        expect(count).toBe(3);
+        expect(count).toBe(8);
     });
+
+    it('when one bag holds 4 of another that holds 2 of target bag, returns product (8)', () => {
+        const input = outdent`\
+                      dark orange bags contain 3 bright white bags, 4 muted yellow bags.
+                      muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.`
+        const rules = parseRules(input);
+
+        const count = amountHeldByBag(rules, 'dark orange', 'shiny gold');
+
+        expect(count).toBe(8);
+    });
+
+    it('stops at target bag', () => {
+        const input = outdent`\
+                      muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.
+                      shiny gold bags contain 1 dark olive bag, 2 muted yellow bags.`
+        const rules = parseRules(input);
+
+        const count = amountHeldByBag(rules, 'muted yellow', 'shiny gold');
+
+        expect(count).toBe(2);
+    });
+    
 });

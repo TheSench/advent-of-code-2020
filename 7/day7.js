@@ -24,15 +24,21 @@ function parseRules(text) {
         , {});
 }
 
-function maxBags(rules, bag) {
-    return Object.entries(rules)
-        .reduce((max, [_, rule]) => {
-            return Math.max(rule[bag] || 0, max);
-        }, 0);
+function amountHeldByBag(rules, bagToCheck, bagToHold, numBags = 1) {
+    const ruleForBagToCheck = (rules[bagToCheck] || {});
+    const amountBagHolds = ruleForBagToCheck[bagToHold] || 0;
+    if (amountBagHolds) {
+        return amountBagHolds * numBags;
+    } else {
+        return Object.entries(ruleForBagToCheck)
+            .reduce((currentMax, [newBagToCheck, numNewBags]) => 
+                Math.max(currentMax, amountHeldByBag(rules, newBagToCheck, bagToHold, numNewBags * numBags))
+            , 0);
+    }
 }
 
 module.exports = {
     parseRule,
     parseRules,
-    maxBags
+    amountHeldByBag
 };
