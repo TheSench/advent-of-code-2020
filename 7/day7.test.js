@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
-const { parseRule, parseRules, amountHeldByBag, maxHeldByAnyBag, bagsThatHoldTargetBag } = require('./day7');
+const { parseRule, parseRules, amountHeldByBag, maxHeldByAnyBag, bagsThatHoldTargetBag, otherBagsHeldByBag } = require('./day7');
 
 describe('parseRule', () => {
     it('parses a bag that contains no other bags', () => {
@@ -225,7 +225,7 @@ describe('bagsThatHoldTargetBag', () => {
     it('return 1 when only rule says it can hold 2', () => {
         const rules = parseRules('muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.');
 
-        const count = bagsThatHoldTargetBag(rules, 'shiny gold');
+        const bags = bagsThatHoldTargetBag(rules, 'shiny gold');
 
         expect(bags).toEqual(['muted yellow']);
     });
@@ -251,5 +251,58 @@ describe('bagsThatHoldTargetBag', () => {
             'bright white',
             'muted yellow'
         ]);
+    });
+});
+
+describe('otherBagsHeldByBag', () => {
+    it('return 0 when bag holds no other bags', () => {
+        const rules = parseRules('faded blue bags contain no other bags.');
+
+        const count = otherBagsHeldByBag(rules, 'faded blue');
+
+        expect(count).toBe(0);
+    });
+
+    it('return 2 when only rule says it can hold 2', () => {
+        const rules = parseRules('shiny gold bags contain 2 dark red bags.');
+
+        const count = otherBagsHeldByBag(rules, 'shiny gold');
+
+        expect(count).toBe(2);
+    });
+
+    it('return 11 when only rule says it can hold 2 of one and 9 of another', () => {
+        const rules = parseRules('muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.');
+
+        const count = otherBagsHeldByBag(rules, 'muted yellow');
+
+        expect(count).toBe(11);
+    });
+
+    it('when target bag holds 4 of a bag holds 2 of another bag, returns 12', () => {
+        const input = outdent`\
+                      dark orange bags contain 4 muted yellow bags.
+                      muted yellow bags contain 2 shiny gold bags.`
+        const rules = parseRules(input);
+
+        const count = otherBagsHeldByBag(rules, 'dark orange');
+
+        expect(count).toBe(12);
+    });
+
+    it('returns correct answer from example', () => {
+        const input = outdent`\
+                      shiny gold bags contain 2 dark red bags.
+                      dark red bags contain 2 dark orange bags.
+                      dark orange bags contain 2 dark yellow bags.
+                      dark yellow bags contain 2 dark green bags.
+                      dark green bags contain 2 dark blue bags.
+                      dark blue bags contain 2 dark violet bags.
+                      dark violet bags contain no other bags.`
+        const rules = parseRules(input);
+
+        const count = otherBagsHeldByBag(rules, 'shiny gold');
+
+        expect(count).toBe(126);
     });
 });

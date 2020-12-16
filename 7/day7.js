@@ -37,6 +37,14 @@ function amountHeldByBag(rules, bagToCheck, bagToHold, numBags = 1) {
     }
 }
 
+function otherBagsHeldByBag(rules, bagToCheck, numBags = 1) {
+    return Object.entries(rules[bagToCheck] || {})
+        .reduce((currentTotal, [newBagToCheck, numNewBags]) => {
+            const totalNumNewBags = numNewBags * numBags;
+            return currentTotal + totalNumNewBags + otherBagsHeldByBag(rules, newBagToCheck, totalNumNewBags);
+        }, 0);
+}
+
 function maxHeldByAnyBag(rules, bagToHold) {
     return Object.keys(rules)
         .filter(bagToCheck => bagToCheck !== bagToHold)
@@ -55,5 +63,6 @@ module.exports = {
     parseRules,
     amountHeldByBag,
     maxHeldByAnyBag,
-    bagsThatHoldTargetBag
+    bagsThatHoldTargetBag,
+    otherBagsHeldByBag
 };
