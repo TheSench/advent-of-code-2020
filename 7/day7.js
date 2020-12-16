@@ -31,14 +31,29 @@ function amountHeldByBag(rules, bagToCheck, bagToHold, numBags = 1) {
         return amountBagHolds * numBags;
     } else {
         return Object.entries(ruleForBagToCheck)
-            .reduce((currentMax, [newBagToCheck, numNewBags]) => 
-                Math.max(currentMax, amountHeldByBag(rules, newBagToCheck, bagToHold, numNewBags * numBags))
+            .reduce((currentTotal, [newBagToCheck, numNewBags]) => 
+                currentTotal + amountHeldByBag(rules, newBagToCheck, bagToHold, numNewBags * numBags)
             , 0);
     }
+}
+
+function maxHeldByAnyBag(rules, bagToHold) {
+    return Object.keys(rules)
+        .filter(bagToCheck => bagToCheck !== bagToHold)
+        .map(bagToCheck => amountHeldByBag(rules, bagToCheck, bagToHold))
+        .reduce((currentMax, next) => Math.max(currentMax, next), 0);
+}
+
+function bagsThatHoldTargetBag(rules, bagToHold) {
+    return Object.keys(rules)
+        .filter(bagToCheck => bagToCheck !== bagToHold)
+        .filter(bagToCheck => amountHeldByBag(rules, bagToCheck, bagToHold));
 }
 
 module.exports = {
     parseRule,
     parseRules,
-    amountHeldByBag
+    amountHeldByBag,
+    maxHeldByAnyBag,
+    bagsThatHoldTargetBag
 };
