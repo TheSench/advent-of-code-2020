@@ -1,6 +1,8 @@
 const { readFile } = require('../utils/fileUtils');
-const {  } = require('./day7');
+const { parseRules, otherBagsHeldByBag } = require('./day7');
 
 readFile(__dirname, 'input.txt').then(rawText => {
-    console.log(null);
+    const rules = parseRules(rawText);
+    const bagsThatHoldShinyGold = otherBagsHeldByBag(rules, 'shiny gold');
+    console.log(bagsThatHoldShinyGold);
 });
