@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
-const { parseRule, parseRules } = require('./day7');
+const { parseRule, parseRules, maxBags } = require('./day7');
 
 describe('parseRule', () => {
     it('parses a bag that contains no other bags', () => {
@@ -112,4 +112,13 @@ describe('parseRules', () => {
             }
         })
     })
+});
+
+describe('maxBags', () => {
+    it('return 0 when bag is not in any other bags', () => {
+        const rules = parseRules('faded blue bags contain no other bags.');
+        const count = maxBags(rules, 'shiny gold');
+
+        expect(count).toBe(0);
+    });
 });

@@ -24,7 +24,12 @@ function parseRules(text) {
         , {});
 }
 
+function maxBags(rules, bag) {
+    return 0;
+}
+
 module.exports = {
     parseRule,
-    parseRules
+    parseRules,
+    maxBags
 };
