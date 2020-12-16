@@ -25,7 +25,10 @@ function parseRules(text) {
 }
 
 function maxBags(rules, bag) {
-    return 0;
+    return Object.entries(rules)
+        .reduce((max, [_, rule]) => {
+            return Math.max(rule[bag] || 0, max);
+        }, 0);
 }
 
 module.exports = {

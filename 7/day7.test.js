@@ -117,8 +117,28 @@ describe('parseRules', () => {
 describe('maxBags', () => {
     it('return 0 when bag is not in any other bags', () => {
         const rules = parseRules('faded blue bags contain no other bags.');
+
         const count = maxBags(rules, 'shiny gold');
 
         expect(count).toBe(0);
+    });
+
+    it('return 2 when only rule says it can hold 2', () => {
+        const rules = parseRules('muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.');
+
+        const count = maxBags(rules, 'shiny gold');
+
+        expect(count).toBe(2);
+    });
+
+    it('when 2 rules can hold a bag, returns the greater', () => {
+        const input = outdent`\
+                      dark orange bags contain 3 shiny gold bags, 4 muted yellow bags.
+                      bright white bags contain 1 shiny gold bag.`
+        const rules = parseRules(input);
+
+        const count = maxBags(rules, 'shiny gold');
+
+        expect(count).toBe(3);
     });
 });
