@@ -12,7 +12,7 @@ function parseRule(line) {
         , {});
 
     return {
-        [type]: contents
+        [type.trim()]: contents
     };
 }
 
