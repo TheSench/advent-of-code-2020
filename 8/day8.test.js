@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
-const { getPreamble, isValid } = require('./day8');
+const { getPreamble, isValid, findFirstInvalid } = require('./day8');
 
 describe('getPreamble', () => {
     it('returns a map of the first x numbers', () => {
@@ -51,4 +51,14 @@ describe('isValid', () => {
 
         expect(actualValid).toBe(false);
     });
+});
+
+describe('firstInvalid', () => {
+    it('returns correct answer from example', () => {
+        const nums = [35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309, 576];
+
+        const firstInvalid = findFirstInvalid(nums, 5);
+
+        expect(firstInvalid).toBe(127);
+     });
 });
