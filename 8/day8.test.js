@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
-const { getPreamble, isValid, findFirstInvalid } = require('./day8');
+const { getPreamble, isValid, findFirstInvalid, findContiguousRangeWithSum, getExtremes } = require('./day8');
 
 describe('getPreamble', () => {
     it('returns a map of the first x numbers', () => {
@@ -61,4 +61,28 @@ describe('firstInvalid', () => {
 
         expect(firstInvalid).toBe(127);
      });
+});
+
+describe('findContiguousRangeWithSum', () => {
+    it('returns correct range from example', () => {
+        const nums = [35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102, 117, 150, 182, 127, 219, 299, 277, 309, 576];
+        const targetSum = 127;
+
+        const range = findContiguousRangeWithSum(nums, targetSum);
+
+        expect(range).toEqual([15, 25, 47, 40]);
+    });
+});
+
+describe('getExtremes', () => {
+    it('returns correct min and max from example', () => {
+        const numbers = [15, 25, 47, 40];
+
+        const extremes = getExtremes(numbers);
+
+        expect(extremes).toEqual({
+            min: 15,
+            max: 47
+        });
+    });
 });

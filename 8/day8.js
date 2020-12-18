@@ -74,8 +74,45 @@ function findFirstInvalid(list, preambleSize) {
     }
 }
 
+/**
+ * 
+ * @param {Number[]} list 
+ * @param {Number} targetSum 
+ */
+function findContiguousRangeWithSum(list, targetSum) {
+    if (list.length <= 2) {
+        return null;
+    }
+
+    let sum = list[0];
+    for (let start = 0, end = 1; end < list.length; end++) {
+        sum += list[end];
+        while (sum > targetSum) {
+            sum -= list[start++];
+        }
+        if (start < end && sum == targetSum) {
+            return list.slice(start, end + 1);
+        }
+    }
+
+    return null;
+}
+
+/**
+ * 
+ * @param {Number[]} list 
+ */
+function getExtremes(list) {
+    return list.reduce(({min, max}, next) => ({
+        min: Math.min(min, next) ,
+        max: Math.max(max, next)
+     }), {min: Number.POSITIVE_INFINITY, max: Number.NEGATIVE_INFINITY});
+}
+
 module.exports = {
     getPreamble,
     isValid,
-    findFirstInvalid
+    findFirstInvalid,
+    findContiguousRangeWithSum,
+    getExtremes
 };
