@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
-const { getPreamble, isValid, findFirstInvalid, findContiguousRangeWithSum, getExtremes } = require('./day8');
+const { getPreamble, isValid, findFirstInvalid, findContiguousRangeWithSum, getExtremes } = require('./day9');
 
 describe('getPreamble', () => {
     it('returns a map of the first x numbers', () => {

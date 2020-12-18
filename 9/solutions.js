@@ -1,6 +1,6 @@
 const { readFile } = require('../utils/fileUtils');
 const { splitIntoLines } = require('../utils/stringSplitters')
-const { findFirstInvalid, findContiguousRangeWithSum, getExtremes } = require('./day8');
+const { findFirstInvalid, findContiguousRangeWithSum, getExtremes } = require('./day9');
 
 readFile(__dirname, 'input.txt').then(rawText => {
     const numbers = splitIntoLines(rawText)
