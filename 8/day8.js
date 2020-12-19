@@ -3,24 +3,21 @@ class State {
         this.instruction = instruction;
         this.accumulator = accumulator;
     }
-}
 
-function processAcc(currentState, value) {
-    currentState.instruction++;
-    currentState.accumulator += value;
-}
-
-function processJmp(currentState, value) {
-    currentState.instruction += value;
-}
-
-function processNop(currentState) {
-    currentState.instruction++;
+    processAcc(value) {
+        this.instruction++;
+        this.accumulator += value;
+    }
+    
+    processJmp(value) {
+        this.instruction += value;
+    }
+    
+    processNop() {
+        this.instruction++;
+    }
 }
 
 module.exports = {
-    State,
-    processAcc,
-    processJmp,
-    processNop
+    State
 };
