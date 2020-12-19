@@ -63,6 +63,45 @@ describe('State', () => {
             expect(state.accumulator).toBe(0);
         });
     });
+
+
+    describe('processOperation', () => {
+        let state = null;
+
+        beforeEach(() => {
+            state = new State();
+            jest.spyOn(state, 'processAcc');
+            jest.spyOn(state, 'processJmp');
+            jest.spyOn(state, 'processNop');
+        });
+        
+        it('processes acc operations', () => {
+            const operation = { instruction: 'acc', value: 1 };
+            state.processOperation(operation);
+
+            expect(state.processAcc).toBeCalledWith(1);
+            expect(state.processJmp).toHaveBeenCalledTimes(0);
+            expect(state.processNop).toHaveBeenCalledTimes(0);
+        });
+        
+        it('processes jmp operations', () => {
+            const operation = { instruction: 'jmp', value: 1 };
+            state.processOperation(operation);
+
+            expect(state.processAcc).toHaveBeenCalledTimes(0);
+            expect(state.processJmp).toBeCalledWith(1);
+            expect(state.processNop).toHaveBeenCalledTimes(0);
+        });
+        
+        it('processes nop operations', () => {
+            const operation = { instruction: 'nop', value: 1 };
+            state.processOperation(operation);
+
+            expect(state.processAcc).toHaveBeenCalledTimes(0);
+            expect(state.processJmp).toHaveBeenCalledTimes(0);
+            expect(state.processNop).toBeCalledWith(1);
+        });
+    });    
 });
 
 describe('parseInstruction', () => {

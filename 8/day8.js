@@ -1,5 +1,5 @@
 class State {
-    constructor(instruction, accumulator) {
+    constructor(instruction = 0, accumulator = 0) {
         this.instruction = instruction;
         this.accumulator = accumulator;
     }
@@ -15,6 +15,21 @@ class State {
     
     processNop() {
         this.instruction++;
+    }
+
+    /**
+     * 
+     * @param {{instruction: String, value: Number}} operation 
+     */
+    processOperation({instruction, value}) {
+        switch (instruction) {
+            case 'acc':
+                return this.processAcc(value);
+            case 'jmp':
+                return this.processJmp(value);
+            case 'nop':
+                return this.processNop(value);
+        }
     }
 }
 
