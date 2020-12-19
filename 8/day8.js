@@ -18,6 +18,15 @@ class State {
     }
 }
 
+function parseInstruction(line) {
+    const [command, value] = line.split(/\s+/);
+    return {
+        command,
+        value: Number(value)
+     };
+}
+
 module.exports = {
-    State
+    State,
+    parseInstruction
 };

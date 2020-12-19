@@ -1,6 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
-const { State } = require('./day8');
+const { State, parseInstruction } = require('./day8');
 
 describe('State', () => {
     describe('processAcc', () => {
@@ -62,5 +62,32 @@ describe('State', () => {
 
             expect(state.accumulator).toBe(0);
         });
+    });
+});
+
+describe('parseInstruction', () => {
+    it.each(['acc', 'jmp', 'nop'])('retrieves $command command from line', (command) => {
+        const instruction = parseInstruction(`${command} 0`);
+
+        expect(instruction.command).toEqual(command);
+    });
+
+    it.each([
+        ['+0', 0],
+        ['+1', 1],
+        ['+99', 99]
+    ])('retrieves positive values ($rawValue) from line', (rawValue, expectedValue) => {
+        const instruction = parseInstruction(`nop ${rawValue} 0`);
+
+        expect(instruction.value).toEqual(expectedValue);
+    });
+
+    it.each([
+        ['-1', -1],
+        ['-99', -99]
+    ])('retrieves negative values ($rawValue) from line', (rawValue, expectedValue) => {
+        const instruction = parseInstruction(`nop ${rawValue}`);
+
+        expect(instruction.value).toEqual(expectedValue);
     });
 });
