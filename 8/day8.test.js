@@ -66,6 +66,7 @@ describe('State', () => {
 
 
     describe('processOperation', () => {
+        /** @type State */
         let state = null;
 
         beforeEach(() => {
@@ -77,6 +78,7 @@ describe('State', () => {
         
         it('processes acc operations', () => {
             const operation = { instruction: 'acc', value: 1 };
+
             state.processOperation(operation);
 
             expect(state.processAcc).toBeCalledWith(1);
@@ -86,6 +88,7 @@ describe('State', () => {
         
         it('processes jmp operations', () => {
             const operation = { instruction: 'jmp', value: 1 };
+
             state.processOperation(operation);
 
             expect(state.processAcc).toHaveBeenCalledTimes(0);
@@ -95,11 +98,22 @@ describe('State', () => {
         
         it('processes nop operations', () => {
             const operation = { instruction: 'nop', value: 1 };
+
             state.processOperation(operation);
 
             expect(state.processAcc).toHaveBeenCalledTimes(0);
             expect(state.processJmp).toHaveBeenCalledTimes(0);
             expect(state.processNop).toBeCalledWith(1);
+        });
+        
+        it.each([0, 2, 99])('marks the current operation as visited ($current)', (current) => {
+            state.instruction = current;
+            
+            expect(!state.visitedInstructions.has(current));
+
+            state.processOperation({ instruction: 'nop', value: 1 });
+
+            expect(state.visitedInstructions.has(current));
         });
     });    
 });

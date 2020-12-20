@@ -1,11 +1,13 @@
 class State {
+    visitedInstructions = new Set();
+
     constructor(instruction = 0, accumulator = 0) {
         this.instruction = instruction;
         this.accumulator = accumulator;
     }
 
     processAcc(value) {
-        this.instruction++;
+        this.instruction++
         this.accumulator += value;
     }
     
@@ -22,6 +24,7 @@ class State {
      * @param {{instruction: String, value: Number}} operation 
      */
     processOperation({instruction, value}) {
+        this.visitedInstructions.add(this.instruction);
         switch (instruction) {
             case 'acc':
                 return this.processAcc(value);
