@@ -28,7 +28,7 @@ describe('getPreamble', () => {
 });
 
 describe('isValid', () => {
-    it.each([6, 7, 8, 9])('returns true if number can be created from sum of two numbers in preamble ($num)', (num) => {
+    it.each([6, 7, 8, 9])('returns true if number can be created from sum of two numbers in preamble (%i)', (num) => {
         const preamble = getPreamble([1, 2, 3, 4, 5], 5);
 
         const actualValid = isValid(preamble, num);
@@ -36,7 +36,7 @@ describe('isValid', () => {
         expect(actualValid).toBe(true);
     });
 
-    it.each([1, 2, 3, 4, 5, 11])('returns false if number cannot be created from sum of two numbers in preamble ($num)', (num) => {
+    it.each([1, 2, 3, 4, 5, 11])('returns false if number cannot be created from sum of two numbers in preamble (%i)', (num) => {
         const preamble = getPreamble([1, 2, 3, 4, 5], 5);
 
         const actualValid = isValid(preamble, num);

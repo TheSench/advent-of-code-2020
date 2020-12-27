@@ -4,7 +4,7 @@ const { State, parseInstruction } = require('./day8');
 
 describe('State', () => {
     describe('processAcc', () => {
-        it.each([0, 3])('increases instruction by 1 ($instruction)', (currentInstruction) => {
+        it.each([0, 3])('increases instruction by 1 (%i)', (currentInstruction) => {
             const state = new State(currentInstruction, 0);
             const expected = currentInstruction + 1;
 
@@ -14,7 +14,7 @@ describe('State', () => {
         });
 
 
-        it.each([[3, 0], [4, 3], [5, -2], [-2, 7]])('adjusts accumulator by value', (currentAccumulator, value) => {
+        it.each([[3, 0], [4, 3], [5, -2], [-2, 7]])('adjusts accumulator by value (%i, %i)', (currentAccumulator, value) => {
             const state = new State(0, currentAccumulator);
             const expected = currentAccumulator + value;
 
@@ -25,7 +25,7 @@ describe('State', () => {
     });
 
     describe('processJmp', () => {
-        it.each([[3, 0], [4, 3], [5, -2], [-2, 7]])('adjusts instruction by value', (currentInstruction, value) => {
+        it.each([[3, 0], [4, 3], [5, -2], [-2, 7]])('adjusts instruction by value ($i, $i)', (currentInstruction, value) => {
             const state = new State(currentInstruction, 0);
             const expected = currentInstruction + value;
 
@@ -45,7 +45,7 @@ describe('State', () => {
     });
 
     describe('processNop', () => {
-        it.each([[0, 3]])('increases instruction by 1 ($instruction)', (currentInstruction) => {
+        it.each([[0, 3]])('increases instruction by 1 (%i)', (currentInstruction) => {
             const state = new State(currentInstruction, 0);
             const expected = currentInstruction + 1;
 
@@ -106,7 +106,7 @@ describe('State', () => {
             expect(state.processNop).toBeCalledWith(1);
         });
         
-        it.each([0, 2, 99])('marks the current operation as visited ($current)', (current) => {
+        it.each([0, 2, 99])('marks the current operation as visited (%i)', (current) => {
             state.instruction = current;
             
             expect(!state.visitedInstructions.has(current));
@@ -119,7 +119,7 @@ describe('State', () => {
 });
 
 describe('parseInstruction', () => {
-    it.each(['acc', 'jmp', 'nop'])('retrieves $command command from line', (command) => {
+    it.each(['acc', 'jmp', 'nop'])('retrieves $command command from lin (%s)e', (command) => {
         const instruction = parseInstruction(`${command} 0`);
 
         expect(instruction.command).toEqual(command);
@@ -129,7 +129,7 @@ describe('parseInstruction', () => {
         ['+0', 0],
         ['+1', 1],
         ['+99', 99]
-    ])('retrieves positive values ($rawValue) from line', (rawValue, expectedValue) => {
+    ])('retrieves positive values ($i) from line', (rawValue, expectedValue) => {
         const instruction = parseInstruction(`nop ${rawValue} 0`);
 
         expect(instruction.value).toEqual(expectedValue);
@@ -138,7 +138,7 @@ describe('parseInstruction', () => {
     it.each([
         ['-1', -1],
         ['-99', -99]
-    ])('retrieves negative values ($rawValue) from line', (rawValue, expectedValue) => {
+    ])('retrieves negative values ($i) from line', (rawValue, expectedValue) => {
         const instruction = parseInstruction(`nop ${rawValue}`);
 
         expect(instruction.value).toEqual(expectedValue);
