@@ -21,17 +21,27 @@ class State {
 
     /**
      * 
-     * @param {{instruction: String, value: Number}} operation 
+     * @param {{command: String, value: Number}} 
      */
-    processOperation({instruction, value}) {
+    processCommand({command, value}) {
         this.visitedInstructions.add(this.instruction);
-        switch (instruction) {
+        switch (command) {
             case 'acc':
                 return this.processAcc(value);
             case 'jmp':
                 return this.processJmp(value);
             case 'nop':
                 return this.processNop(value);
+        }
+    }
+
+    findLoop(commands) {
+        for (let i = 0; i < commands.length; i++) {
+            const nextCommand = commands[this.instruction];
+            this.processCommand(nextCommand);
+            if (this.visitedInstructions.has(this.instruction)) {
+                return this.instruction;
+            }
         }
     }
 }

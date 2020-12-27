@@ -1,5 +1,6 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
+const { splitIntoLines }  =require ('../utils/stringSplitters');
 const { State, parseInstruction } = require('./day8');
 
 describe('State', () => {
@@ -65,7 +66,7 @@ describe('State', () => {
     });
 
 
-    describe('processOperation', () => {
+    describe('processCommand', () => {
         /** @type State */
         let state = null;
 
@@ -76,42 +77,42 @@ describe('State', () => {
             jest.spyOn(state, 'processNop');
         });
         
-        it('processes acc operations', () => {
-            const operation = { instruction: 'acc', value: 1 };
+        it('processes acc commands', () => {
+            const command = { command: 'acc', value: 1 };
 
-            state.processOperation(operation);
+            state.processCommand(command);
 
             expect(state.processAcc).toBeCalledWith(1);
             expect(state.processJmp).toHaveBeenCalledTimes(0);
             expect(state.processNop).toHaveBeenCalledTimes(0);
         });
         
-        it('processes jmp operations', () => {
-            const operation = { instruction: 'jmp', value: 1 };
+        it('processes jmp commands', () => {
+            const command = { command: 'jmp', value: 1 };
 
-            state.processOperation(operation);
+            state.processCommand(command);
 
             expect(state.processAcc).toHaveBeenCalledTimes(0);
             expect(state.processJmp).toBeCalledWith(1);
             expect(state.processNop).toHaveBeenCalledTimes(0);
         });
         
-        it('processes nop operations', () => {
-            const operation = { instruction: 'nop', value: 1 };
+        it('processes nop commands', () => {
+            const command = { command: 'nop', value: 1 };
 
-            state.processOperation(operation);
+            state.processCommand(command);
 
             expect(state.processAcc).toHaveBeenCalledTimes(0);
             expect(state.processJmp).toHaveBeenCalledTimes(0);
             expect(state.processNop).toBeCalledWith(1);
         });
         
-        it.each([0, 2, 99])('marks the current operation as visited (%i)', (current) => {
+        it.each([0, 2, 99])('marks the current command as visited (%i)', (current) => {
             state.instruction = current;
             
             expect(!state.visitedInstructions.has(current));
 
-            state.processOperation({ instruction: 'nop', value: 1 });
+            state.processCommand({ command: 'nop', value: 1 });
 
             expect(state.visitedInstructions.has(current));
         });
@@ -119,7 +120,7 @@ describe('State', () => {
 });
 
 describe('parseInstruction', () => {
-    it.each(['acc', 'jmp', 'nop'])('retrieves $command command from lin (%s)e', (command) => {
+    it.each(['acc', 'jmp', 'nop'])('retrieves %i command from line', (command) => {
         const instruction = parseInstruction(`${command} 0`);
 
         expect(instruction.command).toEqual(command);
@@ -144,3 +145,25 @@ describe('parseInstruction', () => {
         expect(instruction.value).toEqual(expectedValue);
     });
 });
+
+describe('findLoop', () => {
+    it('gets correct answer from example', () => {
+        const input = outdent`\
+                      nop +0
+                      acc +1
+                      jmp +4
+                      acc +3
+                      jmp -3
+                      acc -99
+                      acc +1
+                      jmp -4
+                      acc +6`;
+        const instructions = splitIntoLines(input).map(parseInstruction);
+        const state = new State();
+        
+        const loop = state.findLoop(instructions);
+
+        expect(loop).toBe(1);
+        expect(state.accumulator).toBe(5);
+    });
+})
