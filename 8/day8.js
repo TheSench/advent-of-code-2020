@@ -36,7 +36,7 @@ class State {
     }
 
     findLoop(commands) {
-        for (let i = 0; i < commands.length; i++) {
+        for (let i = 0; i < commands.length && this.instruction < commands.length; i++) {
             const nextCommand = commands[this.instruction];
             this.processCommand(nextCommand);
             if (this.visitedInstructions.has(this.instruction)) {
@@ -54,7 +54,29 @@ function parseInstruction(line) {
      };
 }
 
+function swapCommand(instruction) {
+    return {
+        ...instruction,
+        command: (instruction.command === 'nop' ? 'jmp' : 'nop')
+    };
+}
+
+function fixInstructions(originalInstructions) {
+    for (i = 0; i < originalInstructions.length; i++) {
+        const nextInstruction = originalInstructions[i];
+        if (nextInstruction.command !== 'acc') {
+            const fixedInstructions = originalInstructions.slice();
+            fixedInstructions[i] = swapCommand(nextInstruction);
+            const state = new State();
+            if (state.findLoop(fixedInstructions) === undefined) {
+                return state;
+            }
+        }
+    }
+}
+
 module.exports = {
     State,
-    parseInstruction
+    parseInstruction,
+    fixInstructions
 };

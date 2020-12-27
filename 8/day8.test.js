@@ -1,7 +1,7 @@
 const { describe, expect } = require('@jest/globals');
 const { outdent } = require('../utils/testUtils');
 const { splitIntoLines }  =require ('../utils/stringSplitters');
-const { State, parseInstruction } = require('./day8');
+const { State, parseInstruction, fixInstructions } = require('./day8');
 
 describe('State', () => {
     describe('processAcc', () => {
@@ -165,5 +165,25 @@ describe('findLoop', () => {
 
         expect(loop).toBe(1);
         expect(state.accumulator).toBe(5);
+    });
+})
+
+describe('fixInstructions', () => {
+    it('gets correct answer from example', () => {
+        const input = outdent`\
+                      nop +0
+                      acc +1
+                      jmp +4
+                      acc +3
+                      jmp -3
+                      acc -99
+                      acc +1
+                      jmp -4
+                      acc +6`;
+        const instructions = splitIntoLines(input).map(parseInstruction);
+        
+        const state = fixInstructions(instructions);
+
+        expect(state.accumulator).toBe(8);
     });
 })
